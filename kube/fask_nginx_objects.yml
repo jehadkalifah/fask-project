@@ -1,17 +1,3 @@
-# creating a new volume type PersistentVolumeClaim
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: fask-nginx-volume
-  namespace: fask-namespace
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 2Gi
-
----     
 # To build nginx pod
 apiVersion: apps/v1
 kind: Deployment
