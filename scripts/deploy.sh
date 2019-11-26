@@ -1,7 +1,7 @@
 # Building and pushing the images to Docker Hub
 echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-docker build -t $DOCKER_WEB_IMAGE -f Dockerfile /web 
-docker build -t $DOCKER_NGINX_IMAGE -f Dockerfile /nginx
+docker build -t $DOCKER_WEB_IMAGE ./web 
+docker build -t $DOCKER_NGINX_IMAGE ./nginx
 docker push $DOCKER_WEB_IMAGE
 docker push $DOCKER_NGINX_IMAGE
 
