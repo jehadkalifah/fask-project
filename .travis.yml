@@ -3,8 +3,6 @@ language: generic
 env:
   global:
     - AZ_REPO=$(lsb_release -cs)
-    - DOCKER_WEB_IMAGE=$DOCKER_NAME/fask-web:$TRAVIS_COMMIT
-    - DOCKER_NGINX_IMAGE=$DOCKER_NAME/fask-nginx:$TRAVIS_COMMIT 
 service:
   - docker
 before_install:
@@ -28,6 +26,9 @@ before_install:
 - sudo apt-get install azure-cli
 # Install Kubectl command
 - sudo az aks install-cli     
+# tag docker images
+- export DOCKER_WEB_IMAGE=$DOCKER_NAME/fask-web:$TRAVIS_COMMIT
+- export DOCKER_NGINX_IMAGE=$DOCKER_NAME/fask-nginx:$TRAVIS_COMMIT 
 deploy:
   provider: script
   script: bash ./scripts/deploy.sh
