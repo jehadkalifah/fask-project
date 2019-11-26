@@ -33,7 +33,7 @@ spec:
     spec:
       volumes:
         - name: nginx-volume
-          persistentVolumeClaim:
+          persistentVolume:
             claimName: fask-nginx-volume
       restartPolicy: Always            
       containers:
