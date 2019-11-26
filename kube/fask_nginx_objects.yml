@@ -9,11 +9,10 @@ spec:
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain  
-  path: /etc/nginx
-  readOnly: false
-  resources:
-    requests:
-      storage: 2Gi
+  capacity:
+    storage: 5Gi
+  hostPath:
+    path: "/etc/nginx"
 
 ---
 # To build nginx pod
