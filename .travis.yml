@@ -3,6 +3,8 @@ language: generic
 env:
   global:
     - AZ_REPO=$(lsb_release -cs)
+    - DOCKER_WEB_IMAGE=$DOCKER_NAME/fask-web:$TRAVIS_COMMIT
+    - DOCKER_NGINX_IMAGE=$DOCKER_NAME/fask-nginx:$TRAVIS_COMMIT 
 service:
   - docker
 before_install:
