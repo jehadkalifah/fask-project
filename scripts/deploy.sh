@@ -4,7 +4,7 @@ docker push $DOCKER_WEB_IMAGE
 docker push $DOCKER_NGINX_IMAGE
 
 # testing the environment
-docker-compose up -f ../docker-compose.yml -d
+docker-compose -f ../docker-compose.yml up -d
 docker ps
 docker-compose down 
 
