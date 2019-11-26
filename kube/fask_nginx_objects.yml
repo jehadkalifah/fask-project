@@ -1,0 +1,55 @@
+# creating a new volume type PersistentVolumeClaim
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: fask-nginx-volume
+  namespace: fask-namespace
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+
+---     
+# To build nginx pod
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fask-nginx-deployment
+  namespace: fask-namespace
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      component: nginx
+  template:
+    metadata:
+      labels:
+        component: nginx
+    spec:
+      volumes:
+        - name: nginx-volume
+          persistentVolumeClaim:
+            claimName: fask-nginx-volume
+      restartPolicy: Always            
+      containers:
+        - name: fask-nginx-container
+          image: jehaddocker82/fask-nginx:v4
+          ports:
+            - containerPort: 80
+
+---
+# To build nginx cluster service
+apiVersion: v1
+kind: Service
+metadata:
+  name: fask-nginx-service
+  namespace: fask-namespace  
+spec:
+  type: ClusterIP
+  selector:
+    component: nginx
+  ports:
+    - port: 80
+      targetPort: 80

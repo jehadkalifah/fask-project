@@ -4,40 +4,38 @@ services:
 
   redis:
     image: redis
-    environment:
-      - REDIS_MASTER_HOST=redis
-      - REDIS_MASTER_PORT_NUMBER=6379
     networks: 
-      - flask_network   
+      - fask_network   
 
   web:
     build:
       context: ./web/
     # Rename image based on docker_account/image_name  
-    image: jehaddocker/fask-web  
+    image: jehaddocker82/fask-web:v1  
     ports:
       - "8000:8000"
     depends_on:
       - redis
     networks: 
-      - flask_network   
+      - fask_network   
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
 
   nginx:
     restart: always
     build: ./nginx/
     # Rename image based on docker_account/image_name  
-    image: jehaddocker/fask-nginx  
+    image: jehaddocker82/fask-nginx:v1  
     ports:
       - "8080:80"
-    links:
-      - web
     volumes:
-      - "flask_volume:/usr/share/nginx/html"  
+      - "fask_volume:/usr/share/nginx/html"  
     networks: 
-      - flask_network  
+      - fask_network  
 
 volumes:
-   flask_volume:
+   fask_volume:
 
 networks: 
-    flask_network:   
+    fask_network:   

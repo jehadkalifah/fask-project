@@ -1,0 +1,41 @@
+# To build web pod
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fask-web-deployment
+  namespace: fask-namespace
+spec:
+  replicas: 3
+  selector:
+    matchLabels: 
+      component: web
+  template:
+    metadata:
+      labels:
+        component: web
+    spec:
+      containers:
+        - name: fask-web-container
+          image: jehaddocker82/fask-web:v1
+          ports:
+            - containerPort: 8000
+          env:
+            - name: REDIS_HOST
+              value: 'fask-redis-service'
+            - name: REDIS_PORT
+              value: '6379'  
+
+---
+# To build web cluster service
+apiVersion: v1
+kind: Service
+metadata:
+  name: fask-web-service
+  namespace: fask-namespace
+spec:
+  type: ClusterIP
+  selector:
+    component: web
+  ports:
+    - port: 8000
+      targetPort: 8000

@@ -1,0 +1,19 @@
+# To build nginx ingress rule
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: fask-ingress-service
+  namespace: fask-namespace
+spec:
+  rules: 
+    - http:
+        paths:
+         # to send / traffics into the nginx pods and /api traffics into the web pod
+          - path: /
+            backend:
+              serviceName: fask-nginx-service
+              servicePort: 80
+          - path: /api
+            backend:
+              serviceName: fask-web-service
+              servicePort: 80

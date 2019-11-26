@@ -1,0 +1,35 @@
+# To build redis pod
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: fask-redis-depolyment
+  namespace: fask-namespace
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      component: redis
+  template:
+    metadata:
+      labels:
+        component: redis
+    spec:
+      containers:
+        - name: fask-redis-container
+          image: redis
+          ports:
+            - containerPort: 6379
+---
+# To build redis cluster service
+apiVersion: v1
+kind: Service
+metadata:
+  name: fask-redis-service
+  namespace: fask-namespace
+spec:
+  type: ClusterIP
+  selector:
+    component: redis
+  ports:
+    - port: 6379
+      targetPort: 6379
