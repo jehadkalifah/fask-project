@@ -16,8 +16,8 @@ sudo az aks get-credentials --resource-group $AZURE_AKS_RESOURCE_GROUP --name $A
 sudo kubectl apply -f ./kube
 
 # force to use the latest pushed images
-sudo ubectl set image deployments/fask-web-deployment web=$DOCKER_WEB_IMAGE
-sudo kubectl set image deployments/fask-nginx-deployment nginx=$DOCKER_NGINX_IMAGE
+sudo kubectl set image deployments/fask-web-deployment fask-web-container=$DOCKER_WEB_IMAGE -n fask-namespace
+sudo kubectl set image deployments/fask-nginx-deployment fask-nginx-container=$DOCKER_NGINX_IMAGE -n fask-namespace
 
 # check the deployment status
 sudo kubectl get all -n fask-namespace -o wide
