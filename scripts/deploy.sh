@@ -1,7 +1,5 @@
 # pushing the images to Docker Hub
 echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-echo '$DOCKER_WEB_IMAGE='$DOCKER_WEB_IMAGE
-echo '$DOCKER_NGINX_IMAGE='$DOCKER_NGINX_IMAGE
 docker push $DOCKER_WEB_IMAGE
 docker push $DOCKER_NGINX_IMAGE
 
