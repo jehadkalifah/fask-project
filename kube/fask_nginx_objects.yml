@@ -1,13 +1,16 @@
 # keep it at the top to avoid persistentvolumeclaim "fask-nginx-volume" not found
 # creating a new volume type PersistentVolumeClaim
 apiVersion: v1
-kind: PersistentVolumeClaim
+kind: PersistentVolume
 metadata:
   name: fask-nginx-volume
   namespace: fask-namespace
 spec:
   accessModes:
     - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain  
+  path: /etc/nginx
+  readOnly: false
   resources:
     requests:
       storage: 2Gi
