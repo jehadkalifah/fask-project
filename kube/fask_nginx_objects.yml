@@ -35,7 +35,7 @@ spec:
       restartPolicy: Always            
       containers:
         - name: fask-nginx-container
-          image: jehaddocker82/fask-nginx:v4
+          image: jehaddocker82/fask-nginx:v2
           ports:
             - containerPort: 80
 
