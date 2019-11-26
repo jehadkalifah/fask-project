@@ -11,7 +11,7 @@ services:
     build:
       context: ./web/
     # Rename image based on docker_account/image_name  
-    image: jehaddocker82/fask-web:v1  
+    image: $DOCKER_WEB_IMAGE 
     ports:
       - "8000:8000"
     depends_on:
@@ -26,7 +26,7 @@ services:
     restart: always
     build: ./nginx/
     # Rename image based on docker_account/image_name  
-    image: jehaddocker82/fask-nginx:v1  
+    image: $DOCKER_NGINX_IMAGE
     ports:
       - "8080:80"
     volumes:
