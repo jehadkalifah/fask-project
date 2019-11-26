@@ -20,4 +20,4 @@ kubectl set image deployments/fask-web-deployment web=$DOCKER_WEB_IMAGE
 kubectl set image deployments/fask-nginx-deployment nginx=$DOCKER_NGINX_IMAGE
 
 # check the deployment status
-sudo kubectl get all -n fask-namespace
+sudo kubectl get all -n fask-namespace -o wide
