@@ -1,5 +1,5 @@
-# keep it at the top to avoid persistentvolumeclaim "fask-nginx-volume" not found
-# creating a new volume type PersistentVolumeClaim
+# keep it at the top to avoid persistentvolume "fask-nginx-volume" not found
+# creating a new volume type PersistentVolume
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -33,7 +33,7 @@ spec:
     spec:
       volumes:
         - name: nginx-volume
-          persistentVolume:
+          persistentVolumeClaim:
             claimName: fask-nginx-volume
       restartPolicy: Always            
       containers:
