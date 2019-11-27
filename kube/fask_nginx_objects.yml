@@ -16,7 +16,7 @@ parameters:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: fask-nginx-pv
+  name: fasknginxpv
   namespace: fask-namespace
 spec:
   capacity:
