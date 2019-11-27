@@ -1,20 +1,37 @@
-# keep it at the top to avoid persistentvolume "fask-nginx-volume" not found
-# creating a new volume type PersistentVolume
+# keep it at the top to avoid persistentvolumeclaim "volume" not found
+# creating a persistent volume
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: fask-nginx-volume
+  name: fask-nginx-pv
   namespace: fask-namespace
 spec:
+  capacity:
+    storage: 5Gi
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain  
-  capacity:
-    storage: 5Gi
   hostPath:
-    path: "/etc/nginx"
+    path: "/mnt/fask-mountv"
+  claimRef:
+    name: fask-nginx-pvc
+    namespace: fask-namespace   
 
 ---
+# deploying a claim, so pods can mount the volume via the claim
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: fask-nginx-pvc
+  namespace: fask-namespace
+spec:
+  accessModes:
+     - ReadWriteMany
+  resources:
+      requests:
+          storage: 10Gi
+  volumeName: fask-nginx-pv        
+
 # To build nginx pod
 apiVersion: apps/v1
 kind: Deployment
@@ -31,16 +48,19 @@ spec:
       labels:
         component: nginx
     spec:
-      volumes:
-        - name: nginx-volume
-          persistentVolumeClaim:
-            claimName: fask-nginx-volume
       restartPolicy: Always            
       containers:
         - name: fask-nginx-container
           image: jehaddocker82/fask-nginx:v2
           ports:
             - containerPort: 80
+          volumeMounts:
+            - name: fask-mountv
+              mountPath: /etc/nginx/
+      volumes:
+          - name: fask-mountv
+            persistentVolumeClaim:
+                claimName: fask-nginx-pvc              
 
 ---
 # To build nginx cluster service
