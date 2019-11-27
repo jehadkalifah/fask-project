@@ -1,3 +1,16 @@
+# Create a StorageClass object pointing to the existing Storage Account
+# Remember: that the Storage account must be in the same Resource Group where the AKS cluster is deployed
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: fask-storageclass
+  namespace: fask-namespace
+provisioner: kubernetes.io/azure-file
+parameters:
+  storageAccount: faskstorage
+  location: “Central US”
+
+---
 # keep it at the top to avoid persistentvolumeclaim "volume" not found
 # creating a persistent volume
 apiVersion: v1
@@ -10,12 +23,13 @@ spec:
     storage: 5Gi
   accessModes:
     - ReadWriteMany
+  storageClassName: fask-storageclass
   persistentVolumeReclaimPolicy: Retain  
-  hostPath:
-    path: "/mnt/fask-mountv"
-  claimRef:
-    name: fask-nginx-pvc
-    namespace: fask-namespace   
+  azurefile:
+    secretName: fask-secret
+    # Share Name (must already exist in the storage account) 
+    shareName: fask-fileshare
+    readOnly: false
 
 ---
 # deploying a claim, so pods can mount the volume via the claim
@@ -26,12 +40,13 @@ metadata:
   namespace: fask-namespace
 spec:
   accessModes:
-     - ReadWriteOnce
+     - ReadWriteMany
   resources:
       requests:
           storage: 10Gi
-  volumeName: fask-nginx-pv        
+  volumeName: fask-nginx-pv     
 
+---
 # To build nginx pod
 apiVersion: apps/v1
 kind: Deployment
