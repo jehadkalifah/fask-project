@@ -72,7 +72,7 @@ spec:
             - containerPort: 80
           volumeMounts:
             - name: fask-mountv
-              mountPath: /home
+              mountPath: /usr/share/nginx
       volumes:
           - name: fask-mountv
             persistentVolumeClaim:
