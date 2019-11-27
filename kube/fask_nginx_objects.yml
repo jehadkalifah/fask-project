@@ -25,7 +25,7 @@ spec:
     - ReadWriteMany
   storageClassName: fask-storageclass
   persistentVolumeReclaimPolicy: Retain  
-  azurefile:
+  azureFile:
     secretName: fask-secret
     # Share Name (must already exist in the storage account) 
     shareName: fask-fileshare
