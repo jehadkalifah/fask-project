@@ -44,7 +44,7 @@ spec:
   resources:
       requests:
           storage: 10Gi
-  volumeName: fask-nginx-pv    
+  volumeName: fasknginxpv    
   storageClassName: fask-storageclass
 
 ---
