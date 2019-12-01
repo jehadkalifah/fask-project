@@ -6,23 +6,46 @@ metadata:
   annotations:
     # to create ingress controller basded on nginx 
     kubernetes.io/ingress.class: nginx
-    # disable SSL auto redirection
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    # enable SSL auto redirection
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
     # rewrite rule remove appendix such as /app and change it to / 
     nginx.ingress.kubernetes.io/rewrite-target: /$1
     # new update for cert-manager
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
+  # new update for cert-manager
+  tls:
+    - hosts:
+      - abujoj.com
+      - www.abujoj.com
+      secretName: abujoj-com
   rules:
-  - http:
-      paths:
-      # backend to default home page
-      - backend:
-          serviceName: fask-nginx-service
-          servicePort: 80
-        path: /(.*)
-      # backend to another service if you called /api (it's just an example)  
-      - backend:
-          serviceName: fask-web-service
-          servicePort: 8000
-        path: /api(/|$)(.*)
+    # new update for cert-manager to specify a hostname listen for
+    - host: abujoj.com
+      http:
+          paths:
+          # backend to default home page
+          - backend:
+              serviceName: fask-nginx-service
+              servicePort: 80
+            path: /(.*)
+          # backend to another service if you called /api (it's just an example)  
+          - backend:
+              serviceName: fask-web-service
+              servicePort: 8000
+            path: /api(/|$)(.*)
+    # new update for cert-manager to specify a hostname listen for      
+    - host: www.abujoj.com
+        http:
+            paths:
+            # backend to default home page
+            - backend:
+                serviceName: fask-nginx-service
+                servicePort: 80
+              path: /(.*)
+            # backend to another service if you called /api (it's just an example)  
+            - backend:
+                serviceName: fask-web-service
+                servicePort: 8000
+              path: /api(/|$)(.*)
+    
