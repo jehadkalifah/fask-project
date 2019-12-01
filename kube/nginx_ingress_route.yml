@@ -7,9 +7,11 @@ metadata:
     # to create ingress controller basded on nginx 
     kubernetes.io/ingress.class: nginx
     # disable SSL auto redirection
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
     # rewrite rule remove appendix such as /app and change it to / 
     nginx.ingress.kubernetes.io/rewrite-target: /$1
+    # new update for cert-manager
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
   rules:
   - http:
